@@ -1,0 +1,142 @@
+.site-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--navbar-height);
+  z-index: 1000;
+  background: rgba(251, 246, 236, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-ivory-deep);
+}
+
+.nav-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display-bn);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--color-maroon-dark);
+  flex-shrink: 0;      /* never let the hamburger/nav-links squeeze the logo */
+  flex-wrap: nowrap;
+  min-width: 0;         /* lets brand-text ellipsis instead of forcing overflow */
+}
+
+/* Logo sizing — height-based and scaled with clamp() so it fits inside
+   var(--navbar-height) at every breakpoint without ever needing a fixed
+   pixel value per device. width:auto preserves the SVG's aspect ratio. */
+.brand-logo {
+  height: clamp(34px, 4.5vw, 48px);
+  width: auto;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
+}
+
+.brand-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: var(--color-maroon-dark);
+  flex-shrink: 0;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.nav-link {
+  color: var(--color-ink);
+  font-weight: 500;
+  white-space: nowrap;
+  padding: 8px 12px;
+  border-radius: 999px;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+/* .site-navbar .nav-link (not just .nav-link) so this always wins over
+   Bootstrap's own .nav-link rules, regardless of CSS load order */
+.site-navbar .nav-link:hover,
+.site-navbar .nav-link.active {
+  color: var(--color-maroon-dark);
+  background: rgba(232, 163, 61, 0.22); /* marigold tint — visible pill on hover */
+}
+
+.nav-admin-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-maroon);
+  color: var(--color-white) !important;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+.nav-admin-btn:hover { background: var(--color-maroon-dark); }
+
+/* Tablet — nav links collapse into the hamburger menu, so the brand row
+   just needs to keep the logo comfortably clear of the toggle button */
+@media (max-width: 900px) {
+  .nav-toggle { display: block; }
+
+  .nav-links {
+    position: absolute;
+    top: var(--navbar-height);
+    left: 0;
+    right: 0;
+    background: var(--color-ivory);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    border-bottom: 1px solid var(--color-ivory-deep);
+  }
+
+  .nav-links.open {
+    max-height: 400px;
+  }
+
+  .nav-link, .nav-admin-btn {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border-radius: 0;
+    border-bottom: 1px solid var(--color-ivory-deep);
+  }
+
+  .nav-admin-btn { justify-content: center; }
+}
+
+/* Mobile — brand text can crowd the hamburger on narrow screens, so cap
+   how much width it's allowed and let ellipsis handle any overflow */
+@media (max-width: 480px) {
+  .brand { max-width: calc(100% - 56px); }
+  .brand-text { font-size: 1.05rem; }
+  .brand-logo { height: clamp(28px, 9vw, 36px); }
+}
+
+/* Extra small — drop the wordmark text entirely, logo alone is enough
+   to be recognizable and keeps the row from ever wrapping */
+@media (max-width: 360px) {
+  .brand-text { display: none; }
+}
