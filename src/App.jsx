@@ -23,7 +23,7 @@ import PrayerOrderAdmin from "./pages/admin/PrayerOrderAdmin.jsx";
 import ScripturesAdmin from "./pages/admin/ScripturesAdmin.jsx";
 
 const App = () => (
-  <BrowserRouter>
+  <BrowserRouter basename="/anukulthakursongs-frontend/">
     <AuthProvider>
       <Routes>
         <Route element={<PublicLayout />}>

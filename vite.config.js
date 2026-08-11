@@ -6,6 +6,7 @@ import react from "@vitejs/plugin-react";
 // every asset path needs that prefix baked in at build time.
 // e.g. if your repo is "anukulthakursongs-frontend", base is:
 export default defineConfig({
+  plugins: [react()],
   base: "/anukulthakursongs-frontend/",
-  plugins: [react()]
+  
 });
