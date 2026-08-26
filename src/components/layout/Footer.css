@@ -1,11 +1,15 @@
 .site-footer {
-  background: var(--color-maroon-dark);
+  position: relative;
+  overflow: hidden; /* clip the drifting cloud strip */
+  background: linear-gradient(160deg, var(--color-sky-footer-start) 0%, var(--color-sky-footer-end) 100%);
   color: rgba(255, 255, 255, 0.85);
   padding: 3.5rem 0 1.5rem;
   margin-top: 4rem;
 }
 
 .footer-grid {
+  position: relative; /* stack above the cloud-layer */
+  z-index: 1;
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
   gap: 2.5rem;
@@ -55,6 +59,8 @@
 .footer-socials a:hover { color: var(--color-marigold-light) !important; }
 
 .footer-bottom {
+  position: relative; /* stack above the cloud-layer */
+  z-index: 1;
   text-align: center;
   margin-top: 2.5rem;
   padding-top: 1.5rem;

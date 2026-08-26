@@ -13,6 +13,17 @@
   --color-teal: #2F6F63;
   --color-white: #FFFFFF;
 
+  /* Sky-blue accents — navbar/hero/footer each get a distinct shade,
+     tying together into one airy "3D cloud sky" motif site-wide. */
+  --color-sky-navbar-start: #2E7EF0;
+  --color-sky-navbar-end: #5BAEFF;
+  --color-sky-hero-start: #BEE3FF;
+  --color-sky-hero-end: #EAF6FF;
+  --color-sky-footer-start: #123C73;
+  --color-sky-footer-end: #285FA8;
+  --color-sky-page-top: #EAF6FF;
+  --color-sky-page-bottom: #FBF6EC;
+
   /* Type tokens */
   --font-display-en: 'Fraunces', Georgia, serif;
   --font-display-bn: 'Tiro Bangla', 'Noto Serif Bengali', serif;
@@ -78,6 +89,7 @@ a:hover { color: var(--color-marigold); }
 .page-wrapper {
   min-height: calc(100vh - var(--navbar-height));
   padding-top: var(--navbar-height);
+  background: linear-gradient(180deg, var(--color-sky-page-top) 0%, var(--color-sky-page-bottom) 420px);
 }
 
 .section {

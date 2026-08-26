@@ -1,0 +1,69 @@
+.cloud-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cloud-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  animation-name: cloudDrift;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+/* -50% -> 0% (not the more common 0 -> -50%) so the drift reads as
+   left-to-right, per the brief. */
+@keyframes cloudDrift {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0%); }
+}
+
+.cloud {
+  position: relative;
+  flex: 0 0 auto;
+  width: 90px;
+  height: 32px;
+  margin: 26px 70px 0;
+  border-radius: 50px;
+  background: radial-gradient(circle at 32% 28%, #ffffff 0%, #f2fbff 55%, #d6ecfb 100%);
+  box-shadow:
+    inset -8px -8px 14px rgba(112, 164, 209, 0.28),
+    0 6px 14px rgba(20, 60, 110, 0.12);
+}
+
+.cloud::before,
+.cloud::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: inherit;
+  box-shadow: inherit;
+}
+.cloud::before { width: 52px; height: 52px; top: -24px; left: 8px; }
+.cloud::after  { width: 36px; height: 36px; top: -15px; left: 48px; }
+
+/* A little variety so the repeated set doesn't look copy-pasted */
+.cloud-v2 { width: 66px; height: 24px; }
+.cloud-v2::before { width: 36px; height: 36px; top: -16px; left: 6px; }
+.cloud-v2::after  { width: 24px; height: 24px; top: -9px; left: 32px; }
+
+.cloud-v3 { width: 116px; height: 40px; }
+.cloud-v3::before { width: 62px; height: 62px; top: -28px; left: 12px; }
+.cloud-v3::after  { width: 44px; height: 44px; top: -17px; left: 60px; }
+
+.cloud-v4 { width: 54px; height: 20px; }
+.cloud-v4::before { width: 30px; height: 30px; top: -13px; left: 5px; }
+.cloud-v4::after  { width: 20px; height: 20px; top: -7px; left: 26px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cloud-track { animation: none; transform: translateX(-25%); }
+}

@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { FaFacebook, FaYoutube, FaEnvelope } from "react-icons/fa";
+import CloudLayer from "../common/CloudLayer.jsx";
 import "./Footer.css";
 
 const Footer = () => (
   <footer className="site-footer">
+    <CloudLayer speed={55} count={5} opacity={0.35} />
     <div className="container footer-grid">
       <div>
         <div className="footer-brand">॥ অনুকূল ঠাকুর ॥</div>

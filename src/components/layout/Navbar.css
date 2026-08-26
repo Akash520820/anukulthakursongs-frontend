@@ -5,12 +5,15 @@
   right: 0;
   height: var(--navbar-height);
   z-index: 1000;
-  background: rgba(251, 246, 236, 0.92);
+  overflow: hidden; /* clip the drifting cloud strip to the bar */
+  background: linear-gradient(115deg, var(--color-sky-navbar-start) 0%, var(--color-sky-navbar-end) 100%);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--color-ivory-deep);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.28);
 }
 
 .nav-inner {
+  position: relative; /* stack above the cloud-layer */
+  z-index: 1;
   height: 100%;
   display: flex;
   align-items: center;
@@ -24,7 +27,8 @@
   font-family: var(--font-display-bn);
   font-weight: 700;
   font-size: 1.25rem;
-  color: var(--color-maroon-dark);
+  color: var(--color-white);
+  text-shadow: 0 1px 4px rgba(15, 45, 90, 0.35);
   flex-shrink: 0;      /* never let the hamburger/nav-links squeeze the logo */
   flex-wrap: nowrap;
   min-width: 0;         /* lets brand-text ellipsis instead of forcing overflow */
@@ -52,7 +56,7 @@
   background: none;
   border: none;
   font-size: 1.4rem;
-  color: var(--color-maroon-dark);
+  color: var(--color-white);
   flex-shrink: 0;
 }
 
@@ -63,7 +67,7 @@
 }
 
 .nav-link {
-  color: var(--color-ink);
+  color: rgba(255, 255, 255, 0.92);
   font-weight: 500;
   white-space: nowrap;
   padding: 8px 12px;
@@ -75,23 +79,23 @@
    Bootstrap's own .nav-link rules, regardless of CSS load order */
 .site-navbar .nav-link:hover,
 .site-navbar .nav-link.active {
-  color: var(--color-maroon-dark);
-  background: rgba(232, 163, 61, 0.22); /* marigold tint — visible pill on hover */
+  color: var(--color-white);
+  background: rgba(255, 255, 255, 0.22); /* frosted pill on hover, sits on the sky-blue bar */
 }
 
 .nav-admin-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: var(--color-maroon);
-  color: var(--color-white) !important;
+  background: linear-gradient(135deg, var(--color-marigold) 0%, var(--color-marigold-light) 100%);
+  color: var(--color-maroon-dark) !important;
   padding: 0.5rem 1.1rem;
   border-radius: 999px;
   font-weight: 600;
   font-size: 0.9rem;
   white-space: nowrap;
 }
-.nav-admin-btn:hover { background: var(--color-maroon-dark); }
+.nav-admin-btn:hover { filter: brightness(1.05); }
 
 /* Tablet — nav links collapse into the hamburger menu, so the brand row
    just needs to keep the logo comfortably clear of the toggle button */
@@ -103,14 +107,14 @@
     top: var(--navbar-height);
     left: 0;
     right: 0;
-    background: var(--color-ivory);
+    background: linear-gradient(160deg, var(--color-sky-navbar-start) 0%, var(--color-sky-navbar-end) 100%);
     flex-direction: column;
     align-items: flex-start;
     gap: 0;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
-    border-bottom: 1px solid var(--color-ivory-deep);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.28);
   }
 
   .nav-links.open {
@@ -121,7 +125,7 @@
     width: 100%;
     padding: 1rem 1.25rem;
     border-radius: 0;
-    border-bottom: 1px solid var(--color-ivory-deep);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   }
 
   .nav-admin-btn { justify-content: center; }

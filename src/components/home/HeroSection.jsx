@@ -1,5 +1,6 @@
 import { FaPlay, FaMusic } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import CloudLayer from "../common/CloudLayer.jsx";
 import "./HeroSection.css";
 
 // Single video hero — no slide carousel. Swap the <source src> below for
@@ -11,6 +12,10 @@ const HeroSection = () => (
     </video>
 
     <div className="hero-overlay" />
+
+    {/* Two depth layers for a gentle parallax "3D" drift */}
+    <CloudLayer speed={70} count={4} opacity={0.5} className="hero-clouds hero-clouds-back" />
+    <CloudLayer speed={42} count={5} opacity={0.85} className="hero-clouds hero-clouds-front" />
 
     <div className="hero-content">
       <div className="hero-inner">
