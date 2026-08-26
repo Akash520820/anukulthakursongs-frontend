@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import ScrollToTop from "./components/common/ScrollToTop.jsx";
 import PublicLayout from "./components/layout/PublicLayout.jsx";
 import AdminLayout from "./components/layout/AdminLayout.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
@@ -25,6 +26,7 @@ import ScripturesAdmin from "./pages/admin/ScripturesAdmin.jsx";
 const App = () => (
   <BrowserRouter basename="/anukulthakursongs-frontend/">
     <AuthProvider>
+      <ScrollToTop />
       <Routes>
         <Route element={<PublicLayout />}>
           <Route path="/" element={<Home />} />

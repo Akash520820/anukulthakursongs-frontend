@@ -40,10 +40,16 @@
 html, body {
   margin: 0;
   padding: 0;
+  max-width: 100%;
+  overflow-x: hidden; /* no page should ever scroll sideways on mobile */
   background: var(--color-ivory);
   color: var(--color-ink);
   font-family: var(--font-body);
   scroll-behavior: smooth;
+}
+
+#root {
+  overflow-x: hidden;
 }
 
 h1, h2, h3, h4, .font-display {
