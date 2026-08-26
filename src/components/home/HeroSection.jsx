@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { FaPlay, FaMusic } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "./HeroSection.css";
@@ -6,38 +7,58 @@ import "./HeroSection.css";
 // to "/" in dev and "/anukulthakursongs-frontend/" in the deployed build
 // (see vite.config.js `base`) — a plain "/media/..." string would 404 on
 // GitHub Pages since it isn't prefixed with the repo subpath automatically.
-const HeroSection = () => (
-  <section className="hero-container">
-    <video autoPlay muted loop playsInline className="hero-video">
-      <source src={`${import.meta.env.BASE_URL}media/anukul-thakur-hero.mp4`} type="video/mp4" />
-    </video>
+const HeroSection = () => {
+  const videoRef = useRef(null);
 
-    <div className="hero-overlay" />
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    // Belt-and-braces for autoplay: some browsers only honor a muted
+    // video if `.muted` is also set as a JS property (not just the JSX
+    // attribute), and .play() can return a rejected promise if it was
+    // blocked — catching it avoids an uncaught-promise console error.
+    video.muted = true;
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        /* Autoplay blocked — the user can still tap the video to play it. */
+      });
+    }
+  }, []);
 
-    <div className="hero-content">
-      <div className="hero-inner">
-        <span className="hero-tag">সত্যানুসরণ ও সেবার পথ</span>
+  return (
+    <section className="hero-container">
+      <video ref={videoRef} autoPlay muted loop playsInline preload="auto" className="hero-video">
+        <source src={`${import.meta.env.BASE_URL}media/anukul-thakur-hero.mp4`} type="video/mp4" />
+      </video>
 
-        <h1 className="hero-title">
-          শ্রীশ্রীঠাকুর অনুকূলচন্দ্রের <span className="hero-highlight">বাণী, প্রার্থনা ও গান</span>
-        </h1>
+      <div className="hero-overlay" />
 
-        <p className="hero-description">
-          প্রাতঃ ও সান্ধ্যকালীন প্রার্থনা, ভক্তিমূলক গান এবং সত্যানুসরণ ও নারীর নীতি
-          গ্রন্থ থেকে বাছাই করা অনুচ্ছেদ — একত্রে, এক জায়গায়।
-        </p>
+      <div className="hero-content">
+        <div className="hero-inner">
+          <span className="hero-tag">সত্যানুসরণ ও সেবার পথ</span>
 
-        <div className="hero-actions">
-          <Link to="/prayers" className="btn-marigold hero-btn">
-            <FaPlay /> প্রার্থনার গান
-          </Link>
-          <Link to="/songs" className="btn-outline-hero hero-btn">
-            <FaMusic /> গান দেখুন
-          </Link>
+          <h1 className="hero-title">
+            শ্রীশ্রীঠাকুর অনুকূলচন্দ্রের <span className="hero-highlight">বাণী, প্রার্থনা ও গান</span>
+          </h1>
+
+          <p className="hero-description">
+            প্রাতঃ ও সান্ধ্যকালীন প্রার্থনা, ভক্তিমূলক গান এবং সত্যানুসরণ ও নারীর নীতি
+            গ্রন্থ থেকে বাছাই করা অনুচ্ছেদ — একত্রে, এক জায়গায়।
+          </p>
+
+          <div className="hero-actions">
+            <Link to="/prayers" className="btn-marigold hero-btn">
+              <FaPlay /> প্রার্থনার গান
+            </Link>
+            <Link to="/songs" className="btn-outline-hero hero-btn">
+              <FaMusic /> গান দেখুন
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default HeroSection;
