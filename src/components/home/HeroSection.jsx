@@ -1,21 +1,18 @@
 import { FaPlay, FaMusic } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import CloudLayer from "../common/CloudLayer.jsx";
 import "./HeroSection.css";
 
-// Single video hero — no slide carousel. Swap the <source src> below for
-// your actual Anukul Thakur video file/URL when you have it hosted.
+// Single video hero — no slide carousel. import.meta.env.BASE_URL resolves
+// to "/" in dev and "/anukulthakursongs-frontend/" in the deployed build
+// (see vite.config.js `base`) — a plain "/media/..." string would 404 on
+// GitHub Pages since it isn't prefixed with the repo subpath automatically.
 const HeroSection = () => (
   <section className="hero-container">
     <video autoPlay muted loop playsInline className="hero-video">
-      <source src="/media/anukul-thakur-hero.mp4" type="video/mp4" />
+      <source src={`${import.meta.env.BASE_URL}media/anukul-thakur-hero.mp4`} type="video/mp4" />
     </video>
 
     <div className="hero-overlay" />
-
-    {/* Two depth layers for a gentle parallax "3D" drift */}
-    <CloudLayer speed={70} count={4} opacity={0.5} className="hero-clouds hero-clouds-back" />
-    <CloudLayer speed={42} count={5} opacity={0.85} className="hero-clouds hero-clouds-front" />
 
     <div className="hero-content">
       <div className="hero-inner">

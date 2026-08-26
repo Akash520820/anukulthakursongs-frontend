@@ -40,6 +40,7 @@
   object-fit: contain;
   display: block;
   flex-shrink: 0;
+  filter: brightness(0); /* flattens the multi-tone emblem to solid black so it reads against the blue bar */
 }
 
 .brand-text {
