@@ -2,7 +2,6 @@ import { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { FaBars, FaTimes, FaUserShield } from "react-icons/fa";
 import { useAuth } from "../../context/AuthContext.jsx";
-import CloudLayer from "../common/CloudLayer.jsx";
 import "./Navbar.css";
 import logo from "../../assets/videosAndPhotos/logo-login.svg";
 
@@ -20,7 +19,6 @@ const Navbar = () => {
 
   return (
     <header className="site-navbar">
-      <CloudLayer speed={38} count={5} opacity={0.55} />
       <div className="container nav-inner">
         <Link to="/" className="brand" onClick={() => setOpen(false)}>
           <img src={logo} alt="Logo" className="brand-logo" />

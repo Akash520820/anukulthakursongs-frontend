@@ -5,15 +5,12 @@
   right: 0;
   height: var(--navbar-height);
   z-index: 1000;
-  overflow: hidden; /* clip the drifting cloud strip to the bar */
   background: linear-gradient(115deg, var(--color-sky-navbar-start) 0%, var(--color-sky-navbar-end) 100%);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.28);
 }
 
 .nav-inner {
-  position: relative; /* stack above the cloud-layer */
-  z-index: 1;
   height: 100%;
   display: flex;
   align-items: center;
