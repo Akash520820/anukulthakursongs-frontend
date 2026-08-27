@@ -64,6 +64,36 @@
   gap: 1.75rem;
 }
 
+.nav-lang-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  padding: 5px 10px;
+}
+
+.nav-lang-icon {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.85rem;
+}
+
+.nav-lang-select {
+  background: transparent;
+  border: none;
+  color: var(--color-white);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  /* let the option list keep native OS styling — only the closed pill
+     needs to match the navbar */
+}
+.nav-lang-select:focus { outline: none; }
+.nav-lang-select option {
+  color: var(--color-ink);
+}
+
 .nav-link {
   color: rgba(255, 255, 255, 0.92);
   font-weight: 500;
@@ -128,6 +158,16 @@
   }
 
   .nav-admin-btn { justify-content: center; }
+
+  .nav-lang-switcher {
+    width: 100%;
+    justify-content: center;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    padding: 1rem 1.25rem;
+  }
 }
 
 /* Mobile — brand text can crowd the hamburger on narrow screens, so cap

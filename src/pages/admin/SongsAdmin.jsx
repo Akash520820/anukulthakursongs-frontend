@@ -29,7 +29,7 @@ const SongsAdmin = () => {
         { name: "title", label: "শিরোনাম", type: "text", required: true, half: true },
         { name: "category", label: "ক্যাটাগরি", type: "select", required: true, half: true,
           options: categoryOptions, getValue: (row) => row.category?._id || row.category || "" },
-        { name: "lyricsBengali", label: "লিরিক্স (বাংলা)", type: "textarea", rows: 5, getValue: (row) => row.lyrics?.bengali || "" },
+        { name: "lyricsBengali", label: "লিরিক্স (বাংলা) — খালি রাখলে অন্য ভাষা থেকে auto-fill হবে", type: "textarea", rows: 5, getValue: (row) => row.lyrics?.bengali || "" },
         { name: "lyricsHindi", label: "লিরিক্স (হিন্দি)", type: "textarea", rows: 3, getValue: (row) => row.lyrics?.hindi || "" },
         { name: "lyricsEnglish", label: "লিরিক্স (ইংরেজি)", type: "textarea", rows: 3, getValue: (row) => row.lyrics?.english || "" },
         { name: "isPublished", label: "প্রকাশিত", type: "checkbox", getValue: (row) => row.isPublished ?? true }

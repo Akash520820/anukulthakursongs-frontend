@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { FaBookOpen } from "react-icons/fa";
 import api from "../api/axios.js";
+import { useLanguage } from "../context/LanguageContext.jsx";
 
 const books = [
-  { key: "satyanusaran", label: "সত্যানুসরণ" },
-  { key: "narir_niti", label: "নারীর নীতি" }
+  { key: "satyanusaran", labelKey: "scriptures.satyanusaran" },
+  { key: "narir_niti", labelKey: "scriptures.narirNiti" }
 ];
 
 const Scriptures = () => {
@@ -12,22 +13,23 @@ const Scriptures = () => {
   const [paragraphs, setParagraphs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const { t, pickContent } = useLanguage();
 
   useEffect(() => {
     setLoading(true);
     setError("");
     api.get(`/scriptures/${active}`)
       .then((res) => setParagraphs(res.data.data))
-      .catch(() => setError("অনুচ্ছেদ লোড করা যায়নি।"))
+      .catch(() => setError(t("scriptures.loadError")))
       .finally(() => setLoading(false));
   }, [active]);
 
   return (
     <section className="section container" style={{ maxWidth: 780 }}>
       <h1 className="section-title d-flex align-items-center gap-2">
-        <FaBookOpen style={{ color: "var(--color-marigold)" }} /> গ্রন্থ
+        <FaBookOpen style={{ color: "var(--color-marigold)" }} /> {t("scriptures.title")}
       </h1>
-      <p className="section-subtitle">শ্রীশ্রীঠাকুর অনুকূলচন্দ্রের মূল গ্রন্থ থেকে অনুচ্ছেদ।</p>
+      <p className="section-subtitle">{t("scriptures.subtitle")}</p>
 
       <div className="d-flex gap-2 mb-4">
         {books.map((b) => (
@@ -36,12 +38,12 @@ const Scriptures = () => {
             className={`btn ${active === b.key ? "btn-marigold" : "btn-outline-maroon"}`}
             onClick={() => setActive(b.key)}
           >
-            {b.label}
+            {t(b.labelKey)}
           </button>
         ))}
       </div>
 
-      {loading && <p>লোড হচ্ছে...</p>}
+      {loading && <p>{t("common.loading")}</p>}
       {error && <p className="text-danger">{error}</p>}
 
       <div className="d-flex flex-column gap-4">
@@ -53,13 +55,15 @@ const Scriptures = () => {
                 <span className="badge" style={{ background: "var(--color-teal)" }}>#{p.number}</span>
               )}
             </div>
-            <p style={{ whiteSpace: "pre-line", lineHeight: 1.9, marginBottom: 0 }}>{p.content}</p>
+            <p style={{ whiteSpace: "pre-line", lineHeight: 1.9, marginBottom: 0 }}>
+              {pickContent(p.content) || t("scriptures.noContentInLanguage")}
+            </p>
           </article>
         ))}
       </div>
 
       {!loading && paragraphs.length === 0 && !error && (
-        <p className="text-secondary">এই গ্রন্থে এখনো কোনো অনুচ্ছেদ যোগ করা হয়নি।</p>
+        <p className="text-secondary">{t("scriptures.empty")}</p>
       )}
     </section>
   );

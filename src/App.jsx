@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import { LanguageProvider } from "./context/LanguageContext.jsx";
 import ScrollToTop from "./components/common/ScrollToTop.jsx";
 import PublicLayout from "./components/layout/PublicLayout.jsx";
 import AdminLayout from "./components/layout/AdminLayout.jsx";
@@ -25,6 +26,7 @@ import ScripturesAdmin from "./pages/admin/ScripturesAdmin.jsx";
 
 const App = () => (
   <BrowserRouter basename="/anukulthakursongs-frontend/">
+    <LanguageProvider>
     <AuthProvider>
       <ScrollToTop />
       <Routes>
@@ -53,6 +55,7 @@ const App = () => (
         </Route>
       </Routes>
     </AuthProvider>
+    </LanguageProvider>
   </BrowserRouter>
 );
 

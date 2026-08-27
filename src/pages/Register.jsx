@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { FaSpinner } from "react-icons/fa";
 import api from "../api/axios.js";
 import { useAuth } from "../context/AuthContext.jsx";
+import { useLanguage } from "../context/LanguageContext.jsx";
 
 // Two-stage flow matching the backend exactly:
 // 1) POST /users/register (multipart — avatar is required) -> OTP emailed
@@ -10,6 +11,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 const Register = () => {
   const navigate = useNavigate();
   const { refreshUser } = useAuth();
+  const { t } = useLanguage();
 
   const [stage, setStage] = useState("form"); // "form" | "otp"
   const [form, setForm] = useState({ userName: "", email: "", fullName: "", password: "" });
@@ -25,7 +27,7 @@ const Register = () => {
     e.preventDefault();
     setError("");
     if (!avatar) {
-      setError("প্রোফাইল ছবি আবশ্যক।");
+      setError(t("auth.avatarRequired"));
       return;
     }
     setSubmitting(true);
@@ -41,10 +43,10 @@ const Register = () => {
         headers: { "Content-Type": "multipart/form-data" }
       });
 
-      setInfo("আপনার ইমেইলে একটি ভেরিফিকেশন কোড পাঠানো হয়েছে।");
+      setInfo(t("auth.otpSent"));
       setStage("otp");
     } catch (err) {
-      setError(err.response?.data?.message || "রেজিস্ট্রেশন ব্যর্থ হয়েছে।");
+      setError(err.response?.data?.message || t("auth.registerFailed"));
     } finally {
       setSubmitting(false);
     }
@@ -59,7 +61,7 @@ const Register = () => {
       await refreshUser(); // cookies are set by verify-otp, pull the new user into context
       navigate("/");
     } catch (err) {
-      setError(err.response?.data?.message || "ওটিপি যাচাই ব্যর্থ হয়েছে।");
+      setError(err.response?.data?.message || t("auth.otpFailed"));
     } finally {
       setSubmitting(false);
     }
@@ -70,37 +72,37 @@ const Register = () => {
     setInfo("");
     try {
       await api.post("/users/resend-otp", { email: form.email });
-      setInfo("নতুন কোড পাঠানো হয়েছে।");
+      setInfo(t("auth.otpResent"));
     } catch (err) {
-      setError(err.response?.data?.message || "কোড পুনরায় পাঠানো যায়নি।");
+      setError(err.response?.data?.message || t("auth.otpResendFailed"));
     }
   };
 
   return (
     <section className="section container" style={{ maxWidth: 460 }}>
-      <h1 className="section-title">রেজিস্ট্রেশন</h1>
+      <h1 className="section-title">{t("auth.register")}</h1>
 
       {stage === "form" && (
         <form onSubmit={handleRegisterSubmit} className="card-devotional p-4">
           <fieldset disabled={submitting} className="border-0 p-0 m-0">
             <div className="mb-3">
-              <label className="form-label">ইউজারনেম</label>
+              <label className="form-label">{t("auth.username")}</label>
               <input className="form-control" autoComplete="off" required value={form.userName} onChange={(e) => handleChange("userName", e.target.value)} />
             </div>
             <div className="mb-3">
-              <label className="form-label">পূর্ণ নাম</label>
+              <label className="form-label">{t("auth.fullName")}</label>
               <input className="form-control" autoComplete="off" required value={form.fullName} onChange={(e) => handleChange("fullName", e.target.value)} />
             </div>
             <div className="mb-3">
-              <label className="form-label">ইমেইল</label>
+              <label className="form-label">{t("auth.email")}</label>
               <input type="email" className="form-control" autoComplete="off" required value={form.email} onChange={(e) => handleChange("email", e.target.value)} />
             </div>
             <div className="mb-3">
-              <label className="form-label">পাসওয়ার্ড</label>
+              <label className="form-label">{t("auth.password")}</label>
               <input type="password" className="form-control" autoComplete="new-password" required minLength={6} value={form.password} onChange={(e) => handleChange("password", e.target.value)} />
             </div>
             <div className="mb-3">
-              <label className="form-label">প্রোফাইল ছবি</label>
+              <label className="form-label">{t("auth.profilePhoto")}</label>
               <input type="file" accept="image/*" className="form-control" required onChange={(e) => setAvatar(e.target.files[0])} />
             </div>
           </fieldset>
@@ -108,18 +110,18 @@ const Register = () => {
           {submitting && (
             <p className="text-secondary small d-flex align-items-center gap-2 mb-3">
               <FaSpinner className="spin-icon" />
-              ছবি আপলোড ও ইমেইল পাঠানো হচ্ছে — এতে কিছুক্ষণ সময় লাগতে পারে, পাতাটি বন্ধ করবেন না।
+              {t("auth.uploadingNotice")}
             </p>
           )}
 
           {error && <p className="text-danger small">{error}</p>}
 
           <button type="submit" className="btn btn-marigold w-100 d-flex align-items-center justify-content-center gap-2" disabled={submitting}>
-            {submitting ? (<><FaSpinner className="spin-icon" /> প্রসেসিং হচ্ছে...</>) : "রেজিস্ট্রেশন করুন"}
+            {submitting ? (<><FaSpinner className="spin-icon" /> {t("auth.processing")}</>) : t("auth.registerButton")}
           </button>
 
           <p className="text-center mt-3 mb-0 small">
-            ইতিমধ্যে অ্যাকাউন্ট আছে? <Link to="/login">লগইন করুন</Link>
+            {t("auth.alreadyHaveAccount")} <Link to="/login">{t("auth.loginButton")}</Link>
           </p>
         </form>
       )}
@@ -127,11 +129,11 @@ const Register = () => {
       {stage === "otp" && (
         <form onSubmit={handleOtpSubmit} className="card-devotional p-4">
           <p className="text-secondary small">
-            <strong>{form.email}</strong>-এ পাঠানো ৬ সংখ্যার কোডটি দিন।
+            <strong>{form.email}</strong>{t("auth.enterCodeSentTo")}
           </p>
 
           <div className="mb-3">
-            <label className="form-label">ভেরিফিকেশন কোড</label>
+            <label className="form-label">{t("auth.verificationCode")}</label>
             <input
               className="form-control"
               required
@@ -145,10 +147,10 @@ const Register = () => {
           {error && <p className="text-danger small">{error}</p>}
 
           <button type="submit" className="btn btn-marigold w-100 mb-2 d-flex align-items-center justify-content-center gap-2" disabled={submitting}>
-            {submitting ? (<><FaSpinner className="spin-icon" /> যাচাই হচ্ছে...</>) : "যাচাই করুন"}
+            {submitting ? (<><FaSpinner className="spin-icon" /> {t("auth.verifying")}</>) : t("auth.verifyButton")}
           </button>
           <button type="button" className="btn btn-outline-maroon w-100" onClick={handleResend}>
-            কোড আবার পাঠান
+            {t("auth.resendCode")}
           </button>
         </form>
       )}

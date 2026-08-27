@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { FaSun, FaMoon } from "react-icons/fa";
 import api from "../api/axios.js";
+import { useLanguage } from "../context/LanguageContext.jsx";
 
 const tabs = [
-  { key: "morning", label: "প্রাতঃকালীন", icon: <FaSun /> },
-  { key: "evening", label: "সান্ধ্যকালীন", icon: <FaMoon /> }
+  { key: "morning", labelKey: "prayerSongs.morning", icon: <FaSun /> },
+  { key: "evening", labelKey: "prayerSongs.evening", icon: <FaMoon /> }
 ];
 
 const PrayerSongs = () => {
@@ -13,6 +14,7 @@ const PrayerSongs = () => {
   const [expandedId, setExpandedId] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const { t, pickContent } = useLanguage();
 
   useEffect(() => {
     setLoading(true);
@@ -20,28 +22,28 @@ const PrayerSongs = () => {
     setExpandedId(null);
     api.get(`/prayers/${active}`)
       .then((res) => setPrayer(res.data.data))
-      .catch(() => { setPrayer(null); setError(`${active === "morning" ? "প্রাতঃকালীন" : "সান্ধ্যকালীন"} প্রার্থনা এখনো যোগ করা হয়নি।`); })
+      .catch(() => { setPrayer(null); setError(t("prayerSongs.notAddedYet")); })
       .finally(() => setLoading(false));
   }, [active]);
 
   return (
     <section className="section container" style={{ maxWidth: 820 }}>
-      <h1 className="section-title">প্রার্থনার গান</h1>
-      <p className="section-subtitle">প্রাতঃ ও সান্ধ্যকালীন প্রার্থনায় গাওয়া গানসমূহ, ক্রম অনুযায়ী।</p>
+      <h1 className="section-title">{t("prayerSongs.title")}</h1>
+      <p className="section-subtitle">{t("prayerSongs.subtitle")}</p>
 
       <div className="d-flex gap-2 mb-4">
-        {tabs.map((t) => (
+        {tabs.map((tab) => (
           <button
-            key={t.key}
-            className={`btn d-inline-flex align-items-center gap-2 ${active === t.key ? "btn-marigold" : "btn-outline-maroon"}`}
-            onClick={() => setActive(t.key)}
+            key={tab.key}
+            className={`btn d-inline-flex align-items-center gap-2 ${active === tab.key ? "btn-marigold" : "btn-outline-maroon"}`}
+            onClick={() => setActive(tab.key)}
           >
-            {t.icon} {t.label}
+            {tab.icon} {t(tab.labelKey)}
           </button>
         ))}
       </div>
 
-      {loading && <p>লোড হচ্ছে...</p>}
+      {loading && <p>{t("common.loading")}</p>}
       {error && <p className="text-secondary">{error}</p>}
 
       <div className="d-flex flex-column gap-3">
@@ -60,7 +62,7 @@ const PrayerSongs = () => {
             {expandedId === song._id && (
               <div className="mt-3 pt-3 border-top">
                 <p style={{ whiteSpace: "pre-line", lineHeight: 1.9 }}>
-                  {song.lyrics?.bengali || song.lyrics?.hindi || song.lyrics?.english}
+                  {pickContent(song.lyrics)}
                 </p>
               </div>
             )}

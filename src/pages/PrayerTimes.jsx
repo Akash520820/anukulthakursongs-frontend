@@ -1,21 +1,23 @@
 import { useEffect, useState } from "react";
 import { FaSun, FaMoon } from "react-icons/fa";
 import api from "../api/axios.js";
+import { useLanguage } from "../context/LanguageContext.jsx";
 
 const PrayerTimes = () => {
   const [times, setTimes] = useState([]);
   const [error, setError] = useState("");
+  const { t } = useLanguage();
 
   useEffect(() => {
     api.get("/prayers/times")
       .then((res) => setTimes(res.data.data))
-      .catch(() => setError("প্রার্থনার সময় লোড করা যায়নি।"));
+      .catch(() => setError(t("prayerTimes.loadError")));
   }, []);
 
   return (
     <section className="section container">
-      <h1 className="section-title">প্রার্থনার সময়</h1>
-      <p className="section-subtitle">মাস অনুযায়ী প্রাতঃ ও সান্ধ্যকালীন প্রার্থনার সময়সূচি।</p>
+      <h1 className="section-title">{t("prayerTimes.title")}</h1>
+      <p className="section-subtitle">{t("prayerTimes.subtitle")}</p>
 
       {error && <p className="text-danger">{error}</p>}
 
@@ -23,24 +25,24 @@ const PrayerTimes = () => {
         <table className="table align-middle mb-0">
           <thead>
             <tr>
-              <th>মাস</th>
-              <th><FaSun className="me-2" style={{ color: "var(--color-marigold)" }} />প্রাতঃকাল</th>
-              <th><FaMoon className="me-2" style={{ color: "var(--color-teal)" }} />সন্ধ্যাকাল</th>
+              <th>{t("prayerTimes.month")}</th>
+              <th><FaSun className="me-2" style={{ color: "var(--color-marigold)" }} />{t("prayerTimes.morning")}</th>
+              <th><FaMoon className="me-2" style={{ color: "var(--color-teal)" }} />{t("prayerTimes.evening")}</th>
             </tr>
           </thead>
           <tbody>
-            {times.map((t) => (
-              <tr key={t._id}>
-                <td className="fw-semibold">{t.month}</td>
-                <td>{t.morningTime}</td>
-                <td>{t.eveningTime}</td>
+            {times.map((time) => (
+              <tr key={time._id}>
+                <td className="fw-semibold">{time.month}</td>
+                <td>{time.morningTime}</td>
+                <td>{time.eveningTime}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
-      {times.length === 0 && !error && <p className="text-secondary mt-3">এখনো কোনো সময় নির্ধারণ করা হয়নি।</p>}
+      {times.length === 0 && !error && <p className="text-secondary mt-3">{t("prayerTimes.empty")}</p>}
     </section>
   );
 };

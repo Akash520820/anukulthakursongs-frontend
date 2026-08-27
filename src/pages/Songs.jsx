@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../api/axios.js";
+import { useLanguage } from "../context/LanguageContext.jsx";
 
 const Songs = () => {
   const [songs, setSongs] = useState([]);
@@ -8,6 +9,7 @@ const Songs = () => {
   const [categoryFilter, setCategoryFilter] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const { t } = useLanguage();
 
   useEffect(() => {
     api.get("/categories").then((res) => setCategories(res.data.data)).catch(() => {});
@@ -20,14 +22,14 @@ const Songs = () => {
     api
       .get(`/songs${query}`)
       .then((res) => setSongs(res.data.data))
-      .catch(() => setError("গান লোড করা যায়নি।"))
+      .catch(() => setError(t("songs.loadError")))
       .finally(() => setLoading(false));
   }, [categoryFilter]);
 
   return (
     <section className="section container">
-      <h1 className="section-title">গান</h1>
-      <p className="section-subtitle">ক্যাটাগরি অনুযায়ী বাছাই করুন অথবা সবগুলো দেখুন।</p>
+      <h1 className="section-title">{t("songs.title")}</h1>
+      <p className="section-subtitle">{t("songs.subtitle")}</p>
 
       <div className="mb-4" style={{ maxWidth: 320 }}>
         <select
@@ -35,14 +37,14 @@ const Songs = () => {
           value={categoryFilter}
           onChange={(e) => setCategoryFilter(e.target.value)}
         >
-          <option value="">সব ক্যাটাগরি</option>
+          <option value="">{t("songs.allCategories")}</option>
           {categories.map((c) => (
             <option key={c._id} value={c._id}>{c.name}</option>
           ))}
         </select>
       </div>
 
-      {loading && <p>লোড হচ্ছে...</p>}
+      {loading && <p>{t("common.loading")}</p>}
       {error && <p className="text-danger">{error}</p>}
 
       <div className="row g-4">
@@ -67,7 +69,7 @@ const Songs = () => {
         ))}
       </div>
 
-      {!loading && songs.length === 0 && <p className="text-secondary">কোনো গান পাওয়া যায়নি।</p>}
+      {!loading && songs.length === 0 && <p className="text-secondary">{t("songs.empty")}</p>}
     </section>
   );
 };

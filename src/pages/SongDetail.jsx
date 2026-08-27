@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import api from "../api/axios.js";
+import { useLanguage } from "../context/LanguageContext.jsx";
 
 const langKeyMap = { Bengali: "bengali", Hindi: "hindi", English: "english" };
 
@@ -10,24 +11,27 @@ const SongDetail = () => {
   const [song, setSong] = useState(null);
   const [activeLang, setActiveLang] = useState(null);
   const [error, setError] = useState("");
+  const { t, pickAvailableLanguage } = useLanguage();
 
   useEffect(() => {
     api
       .get(`/songs/${songId}`)
       .then((res) => {
         setSong(res.data.data);
-        setActiveLang(res.data.data.language?.[0] || "Bengali");
+        // Default to the site's chosen language if this song actually has
+        // it, otherwise fall back to whatever language it does have.
+        setActiveLang(pickAvailableLanguage(res.data.data.language || []));
       })
-      .catch(() => setError("গানটি পাওয়া যায়নি।"));
+      .catch(() => setError(t("songs.notFound")));
   }, [songId]);
 
   if (error) return <section className="section container"><p className="text-danger">{error}</p></section>;
-  if (!song) return <section className="section container">লোড হচ্ছে...</section>;
+  if (!song) return <section className="section container">{t("common.loading")}</section>;
 
   return (
     <section className="section container" style={{ maxWidth: 760 }}>
       <Link to="/songs" className="d-inline-flex align-items-center gap-2 mb-4 text-secondary">
-        <FaArrowLeft /> গান তালিকায় ফিরুন
+        <FaArrowLeft /> {t("songs.backToList")}
       </Link>
 
       <h1 className="section-title">{song.title}</h1>
@@ -47,7 +51,7 @@ const SongDetail = () => {
 
       <div className="card-devotional p-4">
         <p style={{ whiteSpace: "pre-line", fontSize: "1.1rem", lineHeight: 2 }}>
-          {song.lyrics?.[langKeyMap[activeLang]] || "এই ভাষায় লিরিক্স নেই।"}
+          {song.lyrics?.[langKeyMap[activeLang]] || t("songs.noLyricsInLanguage")}
         </p>
       </div>
     </section>

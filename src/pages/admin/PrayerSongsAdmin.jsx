@@ -13,7 +13,7 @@ const PrayerSongsAdmin = () => (
     ]}
     fields={[
       { name: "title", label: "শিরোনাম", type: "text", required: true },
-      { name: "lyricsBengali", label: "লিরিক্স (বাংলা)", type: "textarea", rows: 5, getValue: (row) => row.lyrics?.bengali || "" },
+      { name: "lyricsBengali", label: "লিরিক্স (বাংলা) — খালি রাখলে অন্য ভাষা থেকে auto-fill হবে", type: "textarea", rows: 5, getValue: (row) => row.lyrics?.bengali || "" },
       { name: "lyricsHindi", label: "লিরিক্স (হিন্দি)", type: "textarea", rows: 3, getValue: (row) => row.lyrics?.hindi || "" },
       { name: "lyricsEnglish", label: "লিরিক্স (ইংরেজি)", type: "textarea", rows: 3, getValue: (row) => row.lyrics?.english || "" }
     ]}
