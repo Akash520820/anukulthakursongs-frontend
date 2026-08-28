@@ -1,5 +1,5 @@
 import { NavLink, Outlet, Link } from "react-router-dom";
-import { FaHome, FaMusic, FaListAlt, FaClock, FaPray, FaBookOpen, FaSignOutAlt } from "react-icons/fa";
+import { FaHome, FaMusic, FaListAlt, FaClock, FaPray, FaBookOpen, FaImages, FaSignOutAlt } from "react-icons/fa";
 import { useAuth } from "../../context/AuthContext.jsx";
 import "./AdminLayout.css";
 
@@ -10,7 +10,8 @@ const items = [
   { to: "/admin/prayer-times", label: "প্রার্থনার সময়", icon: <FaClock /> },
   { to: "/admin/prayer-songs", label: "প্রার্থনার গান", icon: <FaPray /> },
   { to: "/admin/prayer-order", label: "প্রার্থনার ক্রম", icon: <FaPray /> },
-  { to: "/admin/scriptures", label: "গ্রন্থ", icon: <FaBookOpen /> }
+  { to: "/admin/scriptures", label: "গ্রন্থ", icon: <FaBookOpen /> },
+  { to: "/admin/stories", label: "কাহিনী", icon: <FaImages /> }
 ];
 
 const AdminLayout = () => {

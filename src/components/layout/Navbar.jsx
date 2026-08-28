@@ -17,7 +17,8 @@ const links = [
   { to: "/songs", key: "nav.songs" },
   { to: "/prayer-times", key: "nav.prayerTimes" },
   { to: "/prayers", key: "nav.prayers" },
-  { to: "/scriptures", key: "nav.scriptures" }
+  { to: "/scriptures", key: "nav.scriptures" },
+  { to: "/stories", key: "nav.stories" }
 ];
 
 const Navbar = () => {

@@ -12,6 +12,8 @@ import SongDetail from "./pages/SongDetail.jsx";
 import PrayerTimes from "./pages/PrayerTimes.jsx";
 import PrayerSongs from "./pages/PrayerSongs.jsx";
 import Scriptures from "./pages/Scriptures.jsx";
+import Stories from "./pages/Stories.jsx";
+import StoryDetail from "./pages/StoryDetail.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Account from "./pages/Account.jsx";
@@ -23,6 +25,7 @@ import PrayerTimesAdmin from "./pages/admin/PrayerTimesAdmin.jsx";
 import PrayerSongsAdmin from "./pages/admin/PrayerSongsAdmin.jsx";
 import PrayerOrderAdmin from "./pages/admin/PrayerOrderAdmin.jsx";
 import ScripturesAdmin from "./pages/admin/ScripturesAdmin.jsx";
+import StoriesAdmin from "./pages/admin/StoriesAdmin.jsx";
 
 const App = () => (
   <BrowserRouter basename="/anukulthakursongs-frontend/">
@@ -37,6 +40,8 @@ const App = () => (
           <Route path="/prayer-times" element={<PrayerTimes />} />
           <Route path="/prayers" element={<PrayerSongs />} />
           <Route path="/scriptures" element={<Scriptures />} />
+          <Route path="/stories" element={<Stories />} />
+          <Route path="/stories/:storyId" element={<StoryDetail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/account" element={<Account />} />
@@ -51,6 +56,7 @@ const App = () => (
             <Route path="prayer-songs" element={<PrayerSongsAdmin />} />
             <Route path="prayer-order" element={<PrayerOrderAdmin />} />
             <Route path="scriptures" element={<ScripturesAdmin />} />
+            <Route path="stories" element={<StoriesAdmin />} />
           </Route>
         </Route>
       </Routes>

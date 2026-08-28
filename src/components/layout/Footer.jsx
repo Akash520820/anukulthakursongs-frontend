@@ -21,6 +21,7 @@ const Footer = () => {
             <li><Link to="/prayer-times">{t("nav.prayerTimes")}</Link></li>
             <li><Link to="/prayers">{t("nav.prayers")}</Link></li>
             <li><Link to="/scriptures">{t("nav.scriptures")}</Link></li>
+            <li><Link to="/stories">{t("nav.stories")}</Link></li>
           </ul>
         </div>
 

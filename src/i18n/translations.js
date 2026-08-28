@@ -67,6 +67,12 @@ export const translations = {
     hi: "श्रीश्रीठाकुर के मूल ग्रंथ से अनुच्छेद आधारित पाठ।",
     en: "Passage-by-passage readings from Sri Sri Thakur's original scriptures."
   },
+  "home.cardStoriesTitle": { bn: "কাহিনী", hi: "कहानियाँ", en: "Stories" },
+  "home.cardStoriesDesc": {
+    bn: "বিভিন্ন দেবতার লীলা ও ঘটনার কাহিনী, ছবিসহ।",
+    hi: "विभिन्न देवताओं की लीला और घटनाओं की कहानियाँ, चित्रों सहित।",
+    en: "Stories of different deities' pastimes and incidents, with images."
+  },
 
   // ---- Songs page ----
   "songs.title": { bn: "গান", hi: "गीत", en: "Songs" },
@@ -133,6 +139,7 @@ export const translations = {
 
   // ---- Common ----
   "common.loading": { bn: "লোড হচ্ছে...", hi: "लोड हो रहा है...", en: "Loading..." },
+  "common.save": { bn: "সংরক্ষণ করুন", hi: "सहेजें", en: "Save" },
 
   // ---- Login / Register ----
   "auth.login": { bn: "লগইন", hi: "लॉगिन", en: "Login" },
@@ -165,5 +172,43 @@ export const translations = {
   "auth.verificationCode": { bn: "ভেরিফিকেশন কোড", hi: "सत्यापन कोड", en: "Verification Code" },
   "auth.verifying": { bn: "যাচাই হচ্ছে...", hi: "सत्यापित हो रहा है...", en: "Verifying..." },
   "auth.verifyButton": { bn: "যাচাই করুন", hi: "सत्यापित करें", en: "Verify" },
-  "auth.resendCode": { bn: "কোড আবার পাঠান", hi: "कोड फिर से भेजें", en: "Resend Code" }
+  "auth.resendCode": { bn: "কোড আবার পাঠান", hi: "कोड फिर से भेजें", en: "Resend Code" },
+
+  // ---- Stories ----
+  "nav.stories": { bn: "কাহিনী", hi: "कहानियाँ", en: "Stories" },
+  "stories.title": { bn: "কাহিনী", hi: "कहानियाँ", en: "Stories" },
+  "stories.subtitle": {
+    bn: "বিভিন্ন দেবতার লীলা ও ঘটনার কাহিনী, ছবিসহ।",
+    hi: "विभिन्न देवताओं की लीला और घटनाओं की कहानियाँ, चित्रों सहित।",
+    en: "Stories of different deities' pastimes and incidents, with images."
+  },
+  "stories.allDeities": { bn: "সব দেবতা", hi: "सभी देवता", en: "All Deities" },
+  "stories.loadError": { bn: "কাহিনী লোড করা যায়নি।", hi: "कहानियाँ लोड नहीं हो सकीं।", en: "Couldn't load stories." },
+  "stories.empty": { bn: "কোনো কাহিনী পাওয়া যায়নি।", hi: "कोई कहानी नहीं मिली।", en: "No stories found." },
+  "stories.backToList": { bn: "কাহিনী তালিকায় ফিরুন", hi: "कहानी सूची पर वापस जाएँ", en: "Back to Story List" },
+  "stories.notFound": { bn: "কাহিনীটি পাওয়া যায়নি।", hi: "यह कहानी नहीं मिली।", en: "This story couldn't be found." },
+  "stories.noContentInLanguage": {
+    bn: "এই ভাষায় এই কাহিনী নেই।",
+    hi: "यह कहानी इस भाषा में उपलब्ध नहीं है।",
+    en: "This story isn't available in this language."
+  },
+
+  // ---- Stories admin ----
+  "admin.stories": { bn: "কাহিনী", hi: "कहानियाँ", en: "Stories" },
+  "admin.storiesDeity": { bn: "দেবতা", hi: "देवता", en: "Deity" },
+  "admin.storiesTitleBengali": { bn: "শিরোনাম (বাংলা) — খালি রাখলে auto-fill হবে", hi: "शीर्षक (बंगाली) — खाली छोड़ने पर auto-fill हो जाएगा", en: "Title (Bengali) — leave blank to auto-fill" },
+  "admin.storiesTitleHindi": { bn: "শিরোনাম (হিন্দি)", hi: "शीर्षक (हिन्दी)", en: "Title (Hindi)" },
+  "admin.storiesTitleEnglish": { bn: "শিরোনাম (ইংরেজি)", hi: "शीर्षक (अंग्रेज़ी)", en: "Title (English)" },
+  "admin.storiesContentBengali": { bn: "কাহিনী (বাংলা) — খালি রাখলে auto-fill হবে", hi: "कहानी (बंगाली) — खाली छोड़ने पर auto-fill हो जाएगा", en: "Story (Bengali) — leave blank to auto-fill" },
+  "admin.storiesContentHindi": { bn: "কাহিনী (হিন্দি)", hi: "कहानी (हिन्दी)", en: "Story (Hindi)" },
+  "admin.storiesContentEnglish": { bn: "কাহিনী (ইংরেজি)", hi: "कहानी (अंग्रेज़ी)", en: "Story (English)" },
+  "admin.storiesImages": { bn: "ছবি (একাধিক যোগ করা যাবে)", hi: "चित्र (एक से अधिक जोड़े जा सकते हैं)", en: "Images (multiple allowed)" },
+  "admin.storiesAddImages": { bn: "নতুন ছবি যোগ করুন", hi: "नए चित्र जोड़ें", en: "Add More Images" },
+  "admin.storiesRemoveImage": { bn: "মুছুন", hi: "हटाएँ", en: "Remove" },
+  "admin.storiesCreate": { bn: "নতুন কাহিনী যোগ করুন", hi: "नई कहानी जोड़ें", en: "Add New Story" },
+  "admin.storiesEdit": { bn: "কাহিনী সম্পাদনা", hi: "कहानी संपादित करें", en: "Edit Story" },
+  "admin.storiesSaveFailed": { bn: "সংরক্ষণ ব্যর্থ হয়েছে।", hi: "सहेजना विफल रहा।", en: "Save failed." },
+  "admin.storiesDeleteConfirm": { bn: "আপনি কি নিশ্চিত মুছে ফেলতে চান?", hi: "क्या आप वाकई हटाना चाहते हैं?", en: "Are you sure you want to delete this?" },
+  "admin.storiesDeleteFailed": { bn: "মুছে ফেলা যায়নি।", hi: "हटाया नहीं जा सका।", en: "Couldn't delete." },
+  "admin.storiesAtLeastOneImage": { bn: "কমপক্ষে একটি ছবি আবশ্যক।", hi: "कम से कम एक चित्र आवश्यक है।", en: "At least one image is required." }
 };
