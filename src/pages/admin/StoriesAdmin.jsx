@@ -4,7 +4,7 @@ import api from "../../api/axios.js";
 import { useLanguage } from "../../context/LanguageContext.jsx";
 
 const emptyForm = {
-  deity: "",
+  deity: "", source: "",
   titleBengali: "", titleHindi: "", titleEnglish: "",
   contentBengali: "", contentHindi: "", contentEnglish: ""
 };
@@ -17,8 +17,10 @@ const StoriesAdmin = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [editingImages, setEditingImages] = useState([]); // existing images when editing
+  const [editingVideo, setEditingVideo] = useState(null); // existing video ({url, publicId}) when editing
   const [form, setForm] = useState(emptyForm);
   const [newFiles, setNewFiles] = useState([]); // File[] picked for this save
+  const [videoFile, setVideoFile] = useState(null); // single File, replaces the existing video
   const [saving, setSaving] = useState(false);
 
   const load = () => {
@@ -34,20 +36,24 @@ const StoriesAdmin = () => {
   const openCreate = () => {
     setEditingId(null);
     setEditingImages([]);
+    setEditingVideo(null);
     setForm(emptyForm);
     setNewFiles([]);
+    setVideoFile(null);
     setShowForm(true);
   };
 
   const openEdit = (row) => {
     setEditingId(row._id);
     setEditingImages(row.images || []);
+    setEditingVideo(row.video?.url ? row.video : null);
     setForm({
-      deity: row.deity || "",
+      deity: row.deity || "", source: row.source || "",
       titleBengali: row.title?.bengali || "", titleHindi: row.title?.hindi || "", titleEnglish: row.title?.english || "",
       contentBengali: row.content?.bengali || "", contentHindi: row.content?.hindi || "", contentEnglish: row.content?.english || ""
     });
     setNewFiles([]);
+    setVideoFile(null);
     setShowForm(true);
   };
 
@@ -57,12 +63,17 @@ const StoriesAdmin = () => {
     const data = new FormData();
     Object.entries(form).forEach(([key, value]) => data.append(key, value));
     newFiles.forEach((file) => data.append("images", file));
+    if (videoFile) data.append("video", videoFile);
     return data;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!form.deity.trim() && !form.source.trim()) {
+      setError(t("admin.storiesDeityOrSourceRequired"));
+      return;
+    }
     if (!editingId && newFiles.length === 0) {
       setError(t("admin.storiesAtLeastOneImage"));
       return;
@@ -111,6 +122,19 @@ const StoriesAdmin = () => {
     }
   };
 
+  // Same idea, for the story's single video.
+  const handleRemoveExistingVideo = async () => {
+    if (!editingId) return;
+    if (!window.confirm(t("admin.storiesDeleteConfirm"))) return;
+    try {
+      await api.delete(`/stories/${editingId}/video`);
+      setEditingVideo(null);
+      load();
+    } catch {
+      setError(t("admin.storiesDeleteFailed"));
+    }
+  };
+
   return (
     <div>
       <div className="d-flex justify-content-between align-items-center mb-4">
@@ -136,10 +160,19 @@ const StoriesAdmin = () => {
               <label className="form-label">{t("admin.storiesDeity")}</label>
               <input
                 className="form-control"
-                required
                 value={form.deity}
                 onChange={(e) => handleChange("deity", e.target.value)}
                 placeholder="Krishna, Radha, Anukul Thakur..."
+              />
+            </div>
+
+            <div className="col-12 col-md-6">
+              <label className="form-label">{t("admin.storiesSource")}</label>
+              <input
+                className="form-control"
+                value={form.source}
+                onChange={(e) => handleChange("source", e.target.value)}
+                placeholder="Mahabharata, Ramayana, Bhagavad Gita..."
               />
             </div>
 
@@ -152,6 +185,17 @@ const StoriesAdmin = () => {
                 className="form-control"
                 onChange={(e) => setNewFiles(Array.from(e.target.files))}
               />
+            </div>
+
+            <div className="col-12 col-md-6">
+              <label className="form-label">{t("admin.storiesVideo")}</label>
+              <input
+                type="file"
+                accept="video/*"
+                className="form-control"
+                onChange={(e) => setVideoFile(e.target.files[0] || null)}
+              />
+              {editingVideo && <p className="text-secondary small mb-0 mt-1">{t("admin.storiesReplaceVideo")}</p>}
             </div>
 
             {editingImages.length > 0 && (
@@ -171,6 +215,17 @@ const StoriesAdmin = () => {
                       </button>
                     </div>
                   ))}
+                </div>
+              </div>
+            )}
+
+            {editingVideo && (
+              <div className="col-12">
+                <div className="d-flex align-items-center gap-3">
+                  <video src={editingVideo.url} style={{ width: 160, borderRadius: 8 }} controls preload="metadata" />
+                  <button type="button" className="btn btn-sm btn-outline-danger" onClick={handleRemoveExistingVideo}>
+                    <FaTrash className="me-1" /> {t("admin.storiesRemoveVideo")}
+                  </button>
                 </div>
               </div>
             )}
@@ -229,7 +284,7 @@ const StoriesAdmin = () => {
                       <img src={row.images[0].url} alt="" style={{ width: 44, height: 44, objectFit: "cover", borderRadius: 6 }} />
                     )}
                   </td>
-                  <td>{row.deity}</td>
+                  <td>{row.deity || row.source}</td>
                   <td>{pickContent(row.title) || pickContent(row.content).slice(0, 50)}</td>
                   <td className="d-flex gap-2">
                     <button className="btn btn-sm btn-outline-maroon" onClick={() => openEdit(row)}>

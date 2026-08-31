@@ -30,8 +30,26 @@ const StoryDetail = () => {
         <FaArrowLeft /> {t("stories.backToList")}
       </Link>
 
-      <span className="badge mb-2" style={{ background: "var(--color-teal)" }}>{story.deity}</span>
+      <div className="d-flex gap-2 flex-wrap mb-2">
+        {story.deity && (
+          <span className="badge" style={{ background: "var(--color-teal)" }}>{story.deity}</span>
+        )}
+        {story.source && (
+          <span className="badge" style={{ background: "var(--color-marigold)", color: "var(--color-maroon-dark)" }}>{story.source}</span>
+        )}
+      </div>
       {title && <h1 className="section-title">{title}</h1>}
+
+      {story.video?.url && (
+        <div className="mb-4">
+          <video
+            controls
+            preload="metadata"
+            src={story.video.url}
+            style={{ width: "100%", maxHeight: 480, borderRadius: "var(--radius-md)", background: "#000" }}
+          />
+        </div>
+      )}
 
       {story.images?.length > 0 && (
         <div className="mb-4">

@@ -183,6 +183,7 @@ export const translations = {
     en: "Stories of different deities' pastimes and incidents, with images."
   },
   "stories.allDeities": { bn: "সব দেবতা", hi: "सभी देवता", en: "All Deities" },
+  "stories.allSources": { bn: "সব উৎস", hi: "सभी स्रोत", en: "All Sources" },
   "stories.loadError": { bn: "কাহিনী লোড করা যায়নি।", hi: "कहानियाँ लोड नहीं हो सकीं।", en: "Couldn't load stories." },
   "stories.empty": { bn: "কোনো কাহিনী পাওয়া যায়নি।", hi: "कोई कहानी नहीं मिली।", en: "No stories found." },
   "stories.backToList": { bn: "কাহিনী তালিকায় ফিরুন", hi: "कहानी सूची पर वापस जाएँ", en: "Back to Story List" },
@@ -196,6 +197,12 @@ export const translations = {
   // ---- Stories admin ----
   "admin.stories": { bn: "কাহিনী", hi: "कहानियाँ", en: "Stories" },
   "admin.storiesDeity": { bn: "দেবতা", hi: "देवता", en: "Deity" },
+  "admin.storiesSource": { bn: "উৎস (মহাভারত, রামায়ণ, গীতা ইত্যাদি)", hi: "स्रोत (महाभारत, रामायण, गीता आदि)", en: "Source (Mahabharata, Ramayana, Gita, etc.)" },
+  "admin.storiesDeityOrSourceRequired": {
+    bn: "দেবতা অথবা উৎস — অন্তত একটি আবশ্যক।",
+    hi: "देवता या स्रोत — कम से कम एक आवश्यक है।",
+    en: "At least one of deity or source is required."
+  },
   "admin.storiesTitleBengali": { bn: "শিরোনাম (বাংলা) — খালি রাখলে auto-fill হবে", hi: "शीर्षक (बंगाली) — खाली छोड़ने पर auto-fill हो जाएगा", en: "Title (Bengali) — leave blank to auto-fill" },
   "admin.storiesTitleHindi": { bn: "শিরোনাম (হিন্দি)", hi: "शीर्षक (हिन्दी)", en: "Title (Hindi)" },
   "admin.storiesTitleEnglish": { bn: "শিরোনাম (ইংরেজি)", hi: "शीर्षक (अंग्रेज़ी)", en: "Title (English)" },
@@ -203,6 +210,9 @@ export const translations = {
   "admin.storiesContentHindi": { bn: "কাহিনী (হিন্দি)", hi: "कहानी (हिन्दी)", en: "Story (Hindi)" },
   "admin.storiesContentEnglish": { bn: "কাহিনী (ইংরেজি)", hi: "कहानी (अंग्रेज़ी)", en: "Story (English)" },
   "admin.storiesImages": { bn: "ছবি (একাধিক যোগ করা যাবে)", hi: "चित्र (एक से अधिक जोड़े जा सकते हैं)", en: "Images (multiple allowed)" },
+  "admin.storiesVideo": { bn: "ভিডিও (একটি ছোট ভিডিও, ঐচ্ছিক)", hi: "वीडियो (एक छोटा वीडियो, वैकल्पिक)", en: "Video (a short clip, optional)" },
+  "admin.storiesReplaceVideo": { bn: "নতুন ভিডিও দিলে পুরনোটি প্রতিস্থাপিত হবে", hi: "नया वीडियो देने पर पुराना बदल जाएगा", en: "Uploading a new one replaces the existing video" },
+  "admin.storiesRemoveVideo": { bn: "ভিডিও মুছুন", hi: "वीडियो हटाएँ", en: "Remove Video" },
   "admin.storiesAddImages": { bn: "নতুন ছবি যোগ করুন", hi: "नए चित्र जोड़ें", en: "Add More Images" },
   "admin.storiesRemoveImage": { bn: "মুছুন", hi: "हटाएँ", en: "Remove" },
   "admin.storiesCreate": { bn: "নতুন কাহিনী যোগ করুন", hi: "नई कहानी जोड़ें", en: "Add New Story" },
