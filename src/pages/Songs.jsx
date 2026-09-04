@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import api from "../api/axios.js";
 import { useLanguage } from "../context/LanguageContext.jsx";
+import AnimatedSection from "../components/common/AnimatedSection.jsx";
+import { hoverBounce } from "../utils/motion.js";
 
 const Songs = () => {
   const [songs, setSongs] = useState([]);
@@ -27,7 +30,7 @@ const Songs = () => {
   }, [categoryFilter]);
 
   return (
-    <section className="section container">
+    <AnimatedSection className="section container">
       <h1 className="section-title">{t("songs.title")}</h1>
       <p className="section-subtitle">{t("songs.subtitle")}</p>
 
@@ -47,30 +50,40 @@ const Songs = () => {
       {loading && <p>{t("common.loading")}</p>}
       {error && <p className="text-danger">{error}</p>}
 
-      <div className="row g-4">
-        {songs.map((song) => (
-          <div className="col-12 col-sm-6 col-lg-4" key={song._id}>
-            <Link to={`/songs/${song._id}`} className="text-decoration-none">
-              <div className="card-devotional p-3 h-100">
-                <h6 style={{ color: "var(--color-maroon-dark)" }}>{song.title}</h6>
-                <div className="d-flex gap-2 flex-wrap mt-2">
-                  {song.language?.map((lang) => (
-                    <span key={lang} className="badge" style={{ background: "var(--color-marigold)", color: "var(--color-maroon-dark)" }}>
-                      {lang}
-                    </span>
-                  ))}
-                </div>
-                {song.category?.name && (
-                  <div className="text-secondary small mt-2">{song.category.name}</div>
-                )}
-              </div>
-            </Link>
-          </div>
-        ))}
-      </div>
+      <motion.div className="row g-4" layout>
+        <AnimatePresence mode="popLayout">
+          {songs.map((song) => (
+            <motion.div
+              className="col-12 col-sm-6 col-lg-4"
+              key={song._id}
+              layout
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Link to={`/songs/${song._id}`} className="text-decoration-none">
+                <motion.div className="card-devotional p-3 h-100" whileHover={hoverBounce.whileHover} whileTap={hoverBounce.whileTap}>
+                  <h6 style={{ color: "var(--color-maroon-dark)" }}>{song.title}</h6>
+                  <div className="d-flex gap-2 flex-wrap mt-2">
+                    {song.language?.map((lang) => (
+                      <span key={lang} className="badge" style={{ background: "var(--color-marigold)", color: "var(--color-maroon-dark)" }}>
+                        {lang}
+                      </span>
+                    ))}
+                  </div>
+                  {song.category?.name && (
+                    <div className="text-secondary small mt-2">{song.category.name}</div>
+                  )}
+                </motion.div>
+              </Link>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </motion.div>
 
       {!loading && songs.length === 0 && <p className="text-secondary">{t("songs.empty")}</p>}
-    </section>
+    </AnimatedSection>
   );
 };
 

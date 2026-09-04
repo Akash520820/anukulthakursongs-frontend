@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { FaSpinner } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useLanguage } from "../context/LanguageContext.jsx";
+import AnimatedSection from "../components/common/AnimatedSection.jsx";
+import { buttonBounce } from "../utils/motion.js";
 
 const Login = () => {
   const { login } = useAuth();
@@ -28,7 +31,7 @@ const Login = () => {
   };
 
   return (
-    <section className="section container" style={{ maxWidth: 420 }}>
+    <AnimatedSection className="section container" style={{ maxWidth: 420 }}>
       <h1 className="section-title">{t("auth.login")}</h1>
       <form onSubmit={handleSubmit} className="card-devotional p-4">
         <div className="mb-3">
@@ -40,15 +43,20 @@ const Login = () => {
           <input type="password" className="form-control" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         </div>
         {error && <p className="text-danger small">{error}</p>}
-        <button type="submit" className="btn btn-marigold w-100 d-flex align-items-center justify-content-center gap-2" disabled={submitting}>
+        <motion.button
+          type="submit"
+          className="btn btn-marigold w-100 d-flex align-items-center justify-content-center gap-2"
+          disabled={submitting}
+          {...buttonBounce}
+        >
           {submitting ? (<><FaSpinner className="spin-icon" /> {t("auth.loggingIn")}</>) : t("auth.loginButton")}
-        </button>
+        </motion.button>
 
         <p className="text-center mt-3 mb-0 small">
           {t("auth.noAccount")} <Link to="/register">{t("auth.registerLink")}</Link>
         </p>
       </form>
-    </section>
+    </AnimatedSection>
   );
 };
 

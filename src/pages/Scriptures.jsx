@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaBookOpen } from "react-icons/fa";
 import api from "../api/axios.js";
 import { useLanguage } from "../context/LanguageContext.jsx";
+import AnimatedSection from "../components/common/AnimatedSection.jsx";
+import { fadeInUp, staggerContainer, buttonBounce } from "../utils/motion.js";
 
 const books = [
   { key: "satyanusaran", labelKey: "scriptures.satyanusaran" },
@@ -25,7 +28,7 @@ const Scriptures = () => {
   }, [active]);
 
   return (
-    <section className="section container" style={{ maxWidth: 780 }}>
+    <AnimatedSection className="section container" style={{ maxWidth: 780 }}>
       <h1 className="section-title d-flex align-items-center gap-2">
         <FaBookOpen style={{ color: "var(--color-marigold)" }} /> {t("scriptures.title")}
       </h1>
@@ -33,39 +36,49 @@ const Scriptures = () => {
 
       <div className="d-flex gap-2 mb-4">
         {books.map((b) => (
-          <button
+          <motion.button
             key={b.key}
             className={`btn ${active === b.key ? "btn-marigold" : "btn-outline-maroon"}`}
             onClick={() => setActive(b.key)}
+            {...buttonBounce}
           >
             {t(b.labelKey)}
-          </button>
+          </motion.button>
         ))}
       </div>
 
       {loading && <p>{t("common.loading")}</p>}
       {error && <p className="text-danger">{error}</p>}
 
-      <div className="d-flex flex-column gap-4">
-        {paragraphs.map((p) => (
-          <article key={p._id} className="card-devotional p-4">
-            <div className="d-flex justify-content-between align-items-start mb-2">
-              {p.title && <h6 className="mb-0" style={{ color: "var(--color-maroon-dark)" }}>{p.title}</h6>}
-              {p.number !== undefined && p.number !== null && (
-                <span className="badge" style={{ background: "var(--color-teal)" }}>#{p.number}</span>
-              )}
-            </div>
-            <p style={{ whiteSpace: "pre-line", lineHeight: 1.9, marginBottom: 0 }}>
-              {pickContent(p.content) || t("scriptures.noContentInLanguage")}
-            </p>
-          </article>
-        ))}
-      </div>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={active}
+          className="d-flex flex-column gap-4"
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+          variants={staggerContainer(0.06)}
+        >
+          {paragraphs.map((p) => (
+            <motion.article key={p._id} className="card-devotional p-4" variants={fadeInUp}>
+              <div className="d-flex justify-content-between align-items-start mb-2">
+                {p.title && <h6 className="mb-0" style={{ color: "var(--color-maroon-dark)" }}>{p.title}</h6>}
+                {p.number !== undefined && p.number !== null && (
+                  <span className="badge" style={{ background: "var(--color-teal)" }}>#{p.number}</span>
+                )}
+              </div>
+              <p style={{ whiteSpace: "pre-line", lineHeight: 1.9, marginBottom: 0 }}>
+                {pickContent(p.content) || t("scriptures.noContentInLanguage")}
+              </p>
+            </motion.article>
+          ))}
+        </motion.div>
+      </AnimatePresence>
 
       {!loading && paragraphs.length === 0 && !error && (
         <p className="text-secondary">{t("scriptures.empty")}</p>
       )}
-    </section>
+    </AnimatedSection>
   );
 };
 

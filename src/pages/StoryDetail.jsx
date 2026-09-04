@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaArrowLeft } from "react-icons/fa";
 import api from "../api/axios.js";
 import { useLanguage } from "../context/LanguageContext.jsx";
+import AnimatedSection from "../components/common/AnimatedSection.jsx";
 
 const StoryDetail = () => {
   const { storyId } = useParams();
@@ -25,7 +27,7 @@ const StoryDetail = () => {
   const content = pickContent(story.content);
 
   return (
-    <section className="section container" style={{ maxWidth: 800 }}>
+    <AnimatedSection className="section container" style={{ maxWidth: 800 }}>
       <Link to="/stories" className="d-inline-flex align-items-center gap-2 mb-4 text-secondary">
         <FaArrowLeft /> {t("stories.backToList")}
       </Link>
@@ -53,20 +55,31 @@ const StoryDetail = () => {
 
       {story.images?.length > 0 && (
         <div className="mb-4">
-          <img
-            src={story.images[activeImage].url}
-            alt=""
-            style={{ width: "100%", maxHeight: 480, objectFit: "cover", borderRadius: "var(--radius-md)" }}
-          />
+          <div style={{ overflow: "hidden", borderRadius: "var(--radius-md)" }}>
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={activeImage}
+                src={story.images[activeImage].url}
+                alt=""
+                style={{ width: "100%", maxHeight: 480, objectFit: "cover", display: "block" }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.25 }}
+              />
+            </AnimatePresence>
+          </div>
           {story.images.length > 1 && (
             <div className="d-flex gap-2 mt-2 flex-wrap">
               {story.images.map((img, idx) => (
-                <button
+                <motion.button
                   key={img.publicId}
                   type="button"
                   onClick={() => setActiveImage(idx)}
                   className="p-0 border-0 bg-transparent"
                   style={{ cursor: "pointer" }}
+                  whileHover={{ scale: 1.06 }}
+                  whileTap={{ scale: 0.94 }}
                 >
                   <img
                     src={img.url}
@@ -76,7 +89,7 @@ const StoryDetail = () => {
                       outline: idx === activeImage ? "3px solid var(--color-marigold)" : "none"
                     }}
                   />
-                </button>
+                </motion.button>
               ))}
             </div>
           )}
@@ -88,7 +101,7 @@ const StoryDetail = () => {
           {content || t("stories.noContentInLanguage")}
         </p>
       </div>
-    </section>
+    </AnimatedSection>
   );
 };
 

@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { FaSun, FaMoon } from "react-icons/fa";
 import api from "../api/axios.js";
 import { useLanguage } from "../context/LanguageContext.jsx";
+import AnimatedSection from "../components/common/AnimatedSection.jsx";
+import { fadeIn, staggerContainer, revealViewport } from "../utils/motion.js";
 
 const PrayerTimes = () => {
   const [times, setTimes] = useState([]);
@@ -15,7 +18,7 @@ const PrayerTimes = () => {
   }, []);
 
   return (
-    <section className="section container">
+    <AnimatedSection className="section container">
       <h1 className="section-title">{t("prayerTimes.title")}</h1>
       <p className="section-subtitle">{t("prayerTimes.subtitle")}</p>
 
@@ -30,20 +33,25 @@ const PrayerTimes = () => {
               <th><FaMoon className="me-2" style={{ color: "var(--color-teal)" }} />{t("prayerTimes.evening")}</th>
             </tr>
           </thead>
-          <tbody>
+          <motion.tbody
+            initial="hidden"
+            whileInView="visible"
+            viewport={revealViewport}
+            variants={staggerContainer(0.04)}
+          >
             {times.map((time) => (
-              <tr key={time._id}>
+              <motion.tr key={time._id} variants={fadeIn}>
                 <td className="fw-semibold">{time.month}</td>
                 <td>{time.morningTime}</td>
                 <td>{time.eveningTime}</td>
-              </tr>
+              </motion.tr>
             ))}
-          </tbody>
+          </motion.tbody>
         </table>
       </div>
 
       {times.length === 0 && !error && <p className="text-secondary mt-3">{t("prayerTimes.empty")}</p>}
-    </section>
+    </AnimatedSection>
   );
 };
 

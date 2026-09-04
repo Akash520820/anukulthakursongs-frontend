@@ -1,13 +1,16 @@
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { FaFacebook, FaYoutube, FaEnvelope } from "react-icons/fa";
 import { useLanguage } from "../../context/LanguageContext.jsx";
+import AnimatedSection from "../common/AnimatedSection.jsx";
+import { hoverBounce } from "../../utils/motion.js";
 import "./Footer.css";
 
 const Footer = () => {
   const { t } = useLanguage();
 
   return (
-    <footer className="site-footer">
+    <AnimatedSection as="footer" className="site-footer">
       <div className="container footer-grid">
         <div>
           <div className="footer-brand">॥ {t("nav.brand")} ॥</div>
@@ -28,9 +31,15 @@ const Footer = () => {
         <div>
           <h6 className="footer-heading">{t("footer.contact")}</h6>
           <div className="footer-socials">
-            <a href="#" aria-label="Facebook"><FaFacebook /></a>
-            <a href="#" aria-label="YouTube"><FaYoutube /></a>
-            <a href="#" aria-label="Email"><FaEnvelope /></a>
+            <motion.a href="#" aria-label="Facebook" whileHover={hoverBounce.whileHover} whileTap={hoverBounce.whileTap}>
+              <FaFacebook />
+            </motion.a>
+            <motion.a href="#" aria-label="YouTube" whileHover={hoverBounce.whileHover} whileTap={hoverBounce.whileTap}>
+              <FaYoutube />
+            </motion.a>
+            <motion.a href="#" aria-label="Email" whileHover={hoverBounce.whileHover} whileTap={hoverBounce.whileTap}>
+              <FaEnvelope />
+            </motion.a>
           </div>
         </div>
       </div>
@@ -38,7 +47,7 @@ const Footer = () => {
       <div className="footer-bottom">
         © {new Date().getFullYear()} Anukul Thakur Songs. {t("footer.rights")}
       </div>
-    </footer>
+    </AnimatedSection>
   );
 };
 

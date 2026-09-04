@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { FaBars, FaTimes, FaUserShield, FaGlobe } from "react-icons/fa";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { useLanguage } from "../../context/LanguageContext.jsx";
+import { buttonBounce } from "../../utils/motion.js";
 import "./Navbar.css";
 import logo from "../../assets/videosAndPhotos/logo-login.svg";
 
@@ -27,7 +29,12 @@ const Navbar = () => {
   const { t, language, setLanguage } = useLanguage();
 
   return (
-    <header className="site-navbar">
+    <motion.header
+      className="site-navbar"
+      initial={{ y: -60, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+    >
       <div className="container nav-inner">
         <Link to="/" className="brand" onClick={() => setOpen(false)}>
           <img src={logo} alt="Logo" className="brand-logo" />
@@ -44,15 +51,16 @@ const Navbar = () => {
 
         <nav className={`nav-links ${open ? "open" : ""}`}>
           {links.map((link) => (
-            <NavLink
-              key={link.to}
-              to={link.to}
-              end={link.to === "/"}
-              className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}
-              onClick={() => setOpen(false)}
-            >
-              {t(link.key)}
-            </NavLink>
+            <motion.div key={link.to} whileHover={{ y: -1 }} whileTap={{ scale: 0.96 }}>
+              <NavLink
+                to={link.to}
+                end={link.to === "/"}
+                className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}
+                onClick={() => setOpen(false)}
+              >
+                {t(link.key)}
+              </NavLink>
+            </motion.div>
           ))}
 
           <div className="nav-lang-switcher">
@@ -70,17 +78,21 @@ const Navbar = () => {
           </div>
 
           {isAdmin ? (
-            <Link to="/admin" className="nav-admin-btn" onClick={() => setOpen(false)}>
-              <FaUserShield /> {t("nav.admin")}
-            </Link>
+            <motion.div {...buttonBounce}>
+              <Link to="/admin" className="nav-admin-btn" onClick={() => setOpen(false)}>
+                <FaUserShield /> {t("nav.admin")}
+              </Link>
+            </motion.div>
           ) : (
-            <Link to={user ? "/account" : "/login"} className="nav-admin-btn" onClick={() => setOpen(false)}>
-              {user ? t("nav.myAccount") : t("nav.login")}
-            </Link>
+            <motion.div {...buttonBounce}>
+              <Link to={user ? "/account" : "/login"} className="nav-admin-btn" onClick={() => setOpen(false)}>
+                {user ? t("nav.myAccount") : t("nav.login")}
+              </Link>
+            </motion.div>
           )}
         </nav>
       </div>
-    </header>
+    </motion.header>
   );
 };
 

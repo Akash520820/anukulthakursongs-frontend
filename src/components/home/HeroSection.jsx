@@ -1,7 +1,9 @@
 import { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import { FaPlay, FaMusic } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../../context/LanguageContext.jsx";
+import { staggerContainer, fadeInUp, buttonBounce } from "../../utils/motion.js";
 import "./HeroSection.css";
 
 // Single video hero — no slide carousel. import.meta.env.BASE_URL resolves
@@ -37,24 +39,37 @@ const HeroSection = () => {
       <div className="hero-overlay" />
 
       <div className="hero-content">
-        <div className="hero-inner">
-          <span className="hero-tag">{t("hero.tag")}</span>
+        <motion.div
+          className="hero-inner"
+          initial="hidden"
+          animate="visible"
+          variants={staggerContainer(0.15, 0.1)}
+        >
+          <motion.span variants={fadeInUp} className="hero-tag">
+            {t("hero.tag")}
+          </motion.span>
 
-          <h1 className="hero-title">
+          <motion.h1 variants={fadeInUp} className="hero-title">
             {t("hero.titlePrefix")} <span className="hero-highlight">{t("hero.titleHighlight")}</span>
-          </h1>
+          </motion.h1>
 
-          <p className="hero-description">{t("hero.description")}</p>
+          <motion.p variants={fadeInUp} className="hero-description">
+            {t("hero.description")}
+          </motion.p>
 
-          <div className="hero-actions">
-            <Link to="/prayers" className="btn-marigold hero-btn">
-              <FaPlay /> {t("hero.ctaPrayers")}
-            </Link>
-            <Link to="/songs" className="btn-outline-hero hero-btn">
-              <FaMusic /> {t("hero.ctaSongs")}
-            </Link>
-          </div>
-        </div>
+          <motion.div variants={fadeInUp} className="hero-actions">
+            <motion.div {...buttonBounce}>
+              <Link to="/prayers" className="btn-marigold hero-btn">
+                <FaPlay /> {t("hero.ctaPrayers")}
+              </Link>
+            </motion.div>
+            <motion.div {...buttonBounce}>
+              <Link to="/songs" className="btn-outline-hero hero-btn">
+                <FaMusic /> {t("hero.ctaSongs")}
+              </Link>
+            </motion.div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

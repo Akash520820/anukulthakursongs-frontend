@@ -139,10 +139,16 @@ select:focus-visible, textarea:focus-visible {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+/* Motion accessibility — respected globally. Framer Motion honors this via
+   useReducedMotion() where used; this is the CSS-level safety net for the
+   spinner, CloudLayer drift, and hover transitions declared directly in CSS. */
+@media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+}
 

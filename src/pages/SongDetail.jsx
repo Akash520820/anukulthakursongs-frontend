@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaArrowLeft } from "react-icons/fa";
 import api from "../api/axios.js";
 import { useLanguage } from "../context/LanguageContext.jsx";
+import AnimatedSection from "../components/common/AnimatedSection.jsx";
+import { buttonBounce } from "../utils/motion.js";
 
 const langKeyMap = { Bengali: "bengali", Hindi: "hindi", English: "english" };
 
@@ -29,7 +32,7 @@ const SongDetail = () => {
   if (!song) return <section className="section container">{t("common.loading")}</section>;
 
   return (
-    <section className="section container" style={{ maxWidth: 760 }}>
+    <AnimatedSection className="section container" style={{ maxWidth: 760 }}>
       <Link to="/songs" className="d-inline-flex align-items-center gap-2 mb-4 text-secondary">
         <FaArrowLeft /> {t("songs.backToList")}
       </Link>
@@ -39,22 +42,32 @@ const SongDetail = () => {
 
       <div className="d-flex gap-2 mb-4">
         {song.language?.map((lang) => (
-          <button
+          <motion.button
             key={lang}
             className={`btn btn-sm ${activeLang === lang ? "btn-marigold" : "btn-outline-maroon"}`}
             onClick={() => setActiveLang(lang)}
+            {...buttonBounce}
           >
             {lang}
-          </button>
+          </motion.button>
         ))}
       </div>
 
-      <div className="card-devotional p-4">
-        <p style={{ whiteSpace: "pre-line", fontSize: "1.1rem", lineHeight: 2 }}>
-          {song.lyrics?.[langKeyMap[activeLang]] || t("songs.noLyricsInLanguage")}
-        </p>
+      <div className="card-devotional p-4" style={{ overflow: "hidden" }}>
+        <AnimatePresence mode="wait">
+          <motion.p
+            key={activeLang}
+            style={{ whiteSpace: "pre-line", fontSize: "1.1rem", lineHeight: 2, margin: 0 }}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25 }}
+          >
+            {song.lyrics?.[langKeyMap[activeLang]] || t("songs.noLyricsInLanguage")}
+          </motion.p>
+        </AnimatePresence>
       </div>
-    </section>
+    </AnimatedSection>
   );
 };
 
