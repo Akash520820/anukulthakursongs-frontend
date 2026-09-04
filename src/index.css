@@ -139,7 +139,10 @@ select:focus-visible, textarea:focus-visible {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
-
+@keyframes fadeInRow {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 /* Motion accessibility — respected globally. Framer Motion honors this via
    useReducedMotion() where used; this is the CSS-level safety net for the
    spinner, CloudLayer drift, and hover transitions declared directly in CSS. */

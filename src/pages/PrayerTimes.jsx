@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { FaSun, FaMoon } from "react-icons/fa";
 import api from "../api/axios.js";
 import { useLanguage } from "../context/LanguageContext.jsx";
 import AnimatedSection from "../components/common/AnimatedSection.jsx";
-import { fadeIn, staggerContainer, revealViewport } from "../utils/motion.js";
 
 const PrayerTimes = () => {
   const [times, setTimes] = useState([]);
@@ -37,20 +35,21 @@ const PrayerTimes = () => {
               <th><FaMoon className="me-2" style={{ color: "var(--color-teal)" }} />{t("prayerTimes.evening")}</th>
             </tr>
           </thead>
-          <motion.tbody
-            initial="hidden"
-            whileInView="visible"
-            viewport={revealViewport}
-            variants={staggerContainer(0.04)}
-          >
-            {times.map((time) => (
-              <motion.tr key={time._id} variants={fadeIn}>
+          <tbody>
+            {times.map((time, idx) => (
+              <tr
+                key={time._id}
+                style={{
+                  opacity: 0,
+                  animation: `fadeInRow 0.35s ease-out ${idx * 0.04}s forwards`,
+                }}
+              >
                 <td className="fw-semibold">{time.month}</td>
                 <td>{time.morningTime}</td>
                 <td>{time.eveningTime}</td>
-              </motion.tr>
+              </tr>
             ))}
-          </motion.tbody>
+          </tbody>
         </table>
       </div>
 
