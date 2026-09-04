@@ -8,13 +8,16 @@ import { fadeIn, staggerContainer, revealViewport } from "../utils/motion.js";
 
 const PrayerTimes = () => {
   const [times, setTimes] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const { t } = useLanguage();
 
   useEffect(() => {
+    setLoading(true);
     api.get("/prayers/times")
       .then((res) => setTimes(res.data.data))
-      .catch(() => setError(t("prayerTimes.loadError")));
+      .catch(() => setError(t("prayerTimes.loadError")))
+      .finally(() => setLoading(false));
   }, []);
 
   return (
@@ -22,6 +25,7 @@ const PrayerTimes = () => {
       <h1 className="section-title">{t("prayerTimes.title")}</h1>
       <p className="section-subtitle">{t("prayerTimes.subtitle")}</p>
 
+      {loading && <p>{t("common.loading")}</p>}
       {error && <p className="text-danger">{error}</p>}
 
       <div className="table-responsive card-devotional p-3">
@@ -50,7 +54,7 @@ const PrayerTimes = () => {
         </table>
       </div>
 
-      {times.length === 0 && !error && <p className="text-secondary mt-3">{t("prayerTimes.empty")}</p>}
+      {!loading && times.length === 0 && !error && <p className="text-secondary mt-3">{t("prayerTimes.empty")}</p>}
     </AnimatedSection>
   );
 };
